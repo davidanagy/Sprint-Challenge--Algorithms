@@ -93,20 +93,42 @@ class SortingRobot:
         return self._light == "ON"
 
     def sort_helper_move_right(self):
+        """
+        Helper method for the "sort" method.
+        Runs one bubble sort pass to the right.
+        """
         while self.can_move_right():
+            # Get current item, compare to item on the right.
             self.swap_item()
             self.move_right()
             if self.compare_item() == 1:
+                # If current item is bigger than item on the right,
+                # swap them and turn the light on (to indicate that
+                # a swap was performed).
                 self.set_light_on()
                 self.swap_item()
                 self.move_left()
                 self.swap_item()
             else:
+                # If current item isn't bigger, return it to its
+                # original position.
                 self.move_left()
                 self.swap_item()
+            # Move to the right and repeat the process until we
+            # can't move to the right anymore.
             self.move_right()
 
     def sort_helper_move_left(self):
+        """
+        Helper method for the "sort" method.
+        Runs one bubble sort pass to the left.
+        """
+        # This is very similar to the helper method above, but runs
+        # to the left instead (so when we compare items, we see if
+        # it's *smaller* than the one on its left).
+        # This saves time because, otherwise, we'd have to move all the
+        # way to the left after each pass. This way, we alternate
+        # moving to the right and moving to the left each iteration.
         while self.can_move_left():
             self.swap_item()
             self.move_left()
@@ -125,12 +147,20 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
+
+        # If we can move to the right, run the helper method
+        # to the right.
         if self.can_move_right():
             self.sort_helper_move_right()
             if self.light_is_on():
+                # If the light is on, that means a swap was performed,
+                # so we have to run another iteration.
+                # Turn the light off first, though. That way the light
+                # will remain off if no swap was performed.
                 self.set_light_off()
                 self.sort()
         else:
+            # Same as the above, except we move left instead.
             self.sort_helper_move_left()
             if self.light_is_on():
                 self.set_light_off()
