@@ -12,4 +12,12 @@ c) The `if` statement has a runtime complexity of O(1), since it's just performi
 
 ## Exercise II
 
+1. Start by going to the mid-level floor (i.e., floor "`n` divided by 2" rounded down plus one, or `n//2 + 1`), and drop an egg. There are two possibilities: either it breaks, or it doesn't.
 
+2. (a) If the egg breaks, that means `f` must be on a lower floor. So ignore all the floors `n//2 + 1` and above, go to your new middle floor, and drop an egg again. Another way to put this is: define floor `n//2` as your *new* `n`, then return to step 1.
+
+2. (b) If the egg **doesn't** break, that means `f` must be the current floor **or** a higher one (since the egg doesn't break if you drop it from a floor less than f). So ignore all the floors below `n//2 + 1`, go to your new middle floor, and drop an egg again. Another way to put this is: define floor `n//2 + 1` as the *new first floor*, i.e., subtract each floor by `n//2` and ignore all floors that end up 0 or lower. This means that floor `n` is now floor `n - n//2`. Then go back to step 1.
+
+3. By repeating this process over and over again, we cut out around half the floors each time. Thus, if we keep repeating this process, we end up on a single floor, knowing that all the floors above it result in a broken egg and all the floors below it don't. So just drop an egg from this floor. If it breaks, then `f` is the floor below this one; if it doesn't, then this floor is `f`.
+
+Because we're using a "divide and conquer" strategy and halving the input with each step, this algorithm **has a runtime complexity of O(log(n))**.
